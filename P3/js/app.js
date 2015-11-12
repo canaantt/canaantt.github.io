@@ -76,12 +76,12 @@ Player.prototype.handleInput = function(input) {
         console.log(this.x, this.y);
         this.reset();
     }
-}
+};
 
 Player.prototype.scoring = function(){
         this.score = this.score + 1; 
         console.log("Win! Score: " + this.score + " coordinates:" + this.x + this.y);
-}
+};
 
 
 function checkCollisions() {
@@ -96,7 +96,7 @@ Player.prototype.reset = function() {
     this.x = 200;
     this.y = 380;
     this.render();
-}
+};
 
 
 // Now instantiate your objects.
