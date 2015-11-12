@@ -1,2 +1,3 @@
 # canaantt.github.io
-Front End Projects hosted by github
+The original front-end projects materials are from Udacity front end nanodegree.
+www.udacity.com
