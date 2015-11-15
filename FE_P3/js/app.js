@@ -56,7 +56,6 @@ Player.prototype.handleInput = function(input) {
     if (input == 'right' && this.x < 400) {
         this.x = this.x + 100;
     }
-<<<<<<< HEAD
     if (input == 'left' && this.x > 0) {
         this.x = this.x - 100;
     }
