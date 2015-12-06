@@ -66,14 +66,12 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+
           it('visibility changed', function() {
-            $(".menu-icon-link").click();
-            //expect($('.menu').css('transform')).toEqual("matrix(1, 0, 0, 1, 0, 0)");
-            expect($("body").attr("class")).not.toEqual("menu-hidden");
             $('.menu-icon-link').click();
-            //expect($('.menu').css('transform')).toEqual("matrix(1, 0, 0, 1, -192, 0)");
-            expect($("body").attr("class")).toEqual("menu-hidden");
-         });
+            expect($(".menu").css("transform")).toEqual("matrix(1, 0, 0, 1, -192, 0)");
+            console.log("first click after setTimeout: ", $(".menu").css("transform"));
+          });
      });       
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entires', function() {
@@ -83,15 +81,14 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test wil require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+        beforeEach(function(done) {
+            setTimeout(function() {
+                loadFeed(1);
+                done();
+            }, 1000);
+        });
         it('Initial Entries', function() {
-            beforeEach(function(done) {
-               setTimeout(function() {
-                  loadFeed(1);
-                  done();
-                  }, 1000);
-               });
-            //expect($(".entry").length).toBeGreaterThan(1);
-            expect($(".entry").length).toBe(0);
+            expect($(".entry").length).toBeGreaterThan(1);
          });
     });    
     /* TODO: Write a new test suite named "New Feed Selection" */
@@ -100,8 +97,14 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+         beforeEach(function(done) {
+            setTimeout(function() {
+                loadFeed(1);
+                done();
+            }, 1000);
+         });
          it('new feed is loaded', function() {
-
+            
          });
      });    
 }());
