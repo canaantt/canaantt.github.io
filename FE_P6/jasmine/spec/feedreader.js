@@ -69,8 +69,9 @@ $(function() {
 
           it('visibility changed', function() {
             $('.menu-icon-link').click();
-            expect($(".menu").css("transform")).toEqual("matrix(1, 0, 0, 1, -192, 0)");
-            console.log("first click after setTimeout: ", $(".menu").css("transform"));
+            expect($("body").attr("class")).not.toEqual("menu-hidden");
+            $('.menu-icon-link').click();
+            expect($("body").attr("class")).toEqual("menu-hidden");
           });
      });       
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -97,14 +98,26 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+         
+         var newFeed = {id:4, name:"test", url:"test.com"};
+         allFeeds.push(newFeed);
+         var original_list_length = $(".feed a").length;
+         console.log("newFeed: ", newFeed);
          beforeEach(function(done) {
             setTimeout(function() {
                 loadFeed(1);
                 done();
             }, 1000);
          });
-         it('new feed is loaded', function() {
-            
-         });
+          
+        
+        loadFeed(newFeed.id);
+        
+
+        it('new feed is loaded', function() {
+            expect($(".feed a").length).toBeGreaterThan(original_list_length);
+            console.log("Original list length: ", original_list_length);
+            console.log("After adding a new feed, list length changes to: ", $(".feed a").length);
+        });
      });    
 }());
