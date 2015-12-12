@@ -83,13 +83,12 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function(done) {
-            setTimeout(function() {
-                loadFeed(1);
+            loadFeed(0,function() {
                 done();
-            }, 1000);
+            });
         });
         it('Initial Entries', function() {
-            expect($(".entry").length).toBeGreaterThan(1);
+            expect($(".entry").length).toBeGreaterThan(0);
          });
     });    
     /* TODO: Write a new test suite named "New Feed Selection" */
@@ -98,26 +97,23 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-         
-         var newFeed = {id:4, name:"test", url:"test.com"};
-         allFeeds.push(newFeed);
-         var original_list_length = $(".feed a").length;
-         console.log("newFeed: ", newFeed);
+         var original_list_length;
+         var feedTitle = " ";
+
          beforeEach(function(done) {
-            setTimeout(function() {
-                loadFeed(1);
-                done();
-            }, 1000);
-         });
-          
-        
-        loadFeed(newFeed.id);
+            $(".feed").empty();
+            original_list_length = 0;
+            loadFeed(1, function() {
+                feedTitle = $(".feed .entry h2").text();
+                loadFeed(3, done);     
+            });
+        });
         
 
         it('new feed is loaded', function() {
             expect($(".feed a").length).toBeGreaterThan(original_list_length);
-            console.log("Original list length: ", original_list_length);
-            console.log("After adding a new feed, list length changes to: ", $(".feed a").length);
+            expect($(".feed a").length).toEqual(allFeeds.length);
+            expect($(".feed .entry h2").text()).not.toBe(feedTitle);
         });
      });    
 }());
