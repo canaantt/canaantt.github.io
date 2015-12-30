@@ -2,7 +2,7 @@
 
 - [ ] Download the Knockout framework. Knockout must be used to handle list, filter, and any other information on the page that is subject to changing state. Things that should not be handled by knockout: anything the map api is used for, tracking markers, making the map, refreshing the map.
 
-- [ ] Write code required to add a full-screen map to your page using the Google Maps API. For sake of efficiency, the map API should be called only once.
+- [ ] ~~Write code required to add a full-screen map to your page using the Google Maps API. For sake of efficiency, the map API should be called only once.~~
 
 - [ ] Write code required to display map markers identifying a number of locations you are interested in within this neighborhood. This is the set of locations on which you will be searching and filtering in step 5. Your project should include at least 5 locations and display those locations when the page is loaded.
 
