@@ -10,7 +10,7 @@ function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat:47.6097, lng:-122.3331},
     //center: address.geometry.location,
-    scrollwheel: false,
+    scrollwheel: true,
     zoom: 8
   });
 }

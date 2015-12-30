@@ -5,23 +5,21 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>UdaciFeeds</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,700">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,100,300,700">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <style type="text/css">
-             html, body { height: 100%; margin: 0; padding: 0; }
-             #map { height: 100%; }
-        </style>
     </head>
     <body class="page-wrap">
-         <div class="input-group main-nav">
+        <header class="navbar navbar-inverse navbar-fixed-top">
+            <h3>Job Opening</h3>
+        </header>
+        <div class="input-group main-nav">
             <input type="text" class="form-control" placeholder="Search for...">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
+                <button class="btn btn-info" type="button">Filter</button>
             </span>
         </div><!-- /input-group -->
         <div id="map" class="main-content"></div>
-        
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script async defer
