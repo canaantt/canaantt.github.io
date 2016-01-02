@@ -13,16 +13,20 @@
         <header class="navbar navbar-inverse navbar-fixed-top">
             <h3>Get to know your neighborhood</h3>
         </header>
-        <div class="input-group main-nav">
+        <div class="main-nav">
+        <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-                <button class="btn btn-info" type="button">Filter</button>
+            <span>
+                 <a class="btn btn-sm btn-info" type="button" href='https://www.glassdoor.com/index.htm'>power by<img src='https://www.glassdoor.com/static/img/api/glassdoor_logo_80.png' title='Job Search' /></a>
             </span>
         </div><!-- /input-group -->
-        <div id="map" class="main-content"></div>
         <div class="menu">
-            <ul class="feed-list"></ul>
+            <h3 id="gldimes-header"></h3>
+            <ul id="gldimes-records">Type in an address above and find relevant glassdoor records here!</ul>
         </div>
+    </div>
+        <div id="map" class="main-content"></div>
+        
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

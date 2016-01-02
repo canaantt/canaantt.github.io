@@ -32,7 +32,7 @@
   -ms-flex: 1;                    /* IE 10 */
   flex: 1;                        /* NEW, Spec - Opera 12.1, Firefox 20+ */
   
-  background: #ccc;
+  background: #000000;
   margin-top: 10px;
   }
 
