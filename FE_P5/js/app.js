@@ -13,10 +13,12 @@ function initMap() {
     scrollwheel: true,
     zoom: 8
   });
-}
 
-var $gldHeaderElem = $('#gldimes-header');
-var $gldElem = $('#gldimes-records');
+
+
+var lat = 47.6097;
+var $yelpHeaderElem = $('#yelpimes-header');
+var $yelpElem = $('#yelpimes-records');
 $("form").submit(function(event) {
         var $city = $("#city").val();
         var $street = $("#street").val();
@@ -27,15 +29,22 @@ $("form").submit(function(event) {
         $body.append(imageTag);
     });
 //$searchTerm = $("#city").val();
+var $consumer_key = "50FjBMSKJUh2OaE_fiVt2w";
+var $consumer_secret = "stqahr_NGTX0_PJvLxRVhBo7rsw";
+var $token = "4P9jlOJ_7H4s8lLgmzWLTzadzzckHxO9";
+var $token_secret = "Y07An4DVAfc152afg664HCWpexU";
 var $searchTerm = "pharmaceutical";
-var $partnerId = "51544";
-var $api_key = "eZ8t71dWbXs";
-var $publicIP = "76.22.47.171";
-var url = "http://api.glassdoor.com/api/api.htm?t.p=" + $partnerId + 
-           "&t.k=" + $api_key + 
-           "&userip=" + $publicIP + 
-           "&useragent=" + "Chrome" + "&format=json&v=1&action=employers" +
-           "&q=" + $searchTerm + "&city=Seattle" + "&ps=8";
+var $location = "Seattle";
+
+var url = "https://api.yelp.com/v2/search?term=" + "food" + "&location=" + $location +
+          "&oauth_consumer_key=" + $consumer_key +
+          "&oauth_token=" + $token +
+          "&oauth_signature_method=" + "HMAC-SHA1" +
+          "&oauth_signature=" + $token + 
+          "&oauth_timestamp=" + Date.now() +  
+          "&oauth_nonce=" +
+          "&location=" + $location +'"';
+
 console.log("url is:" + url);
 $.ajax({
       url: url,
@@ -44,7 +53,14 @@ $.ajax({
            var articles = response.response.employers;
            console.log("Glassdoor Search Engine: ", articles);
            articles.forEach(function(art){
-             $gldElem.append('<li><a target="_blank" href="http://' + art.website + '">' + art.name + '</a></li>');
+             $yelpElem.append('<li><a target="_blank" href="http://' + art.website + '">' + art.name + '</a></li>');
+             lat = lat - 0.1; 
+             var marker = new google.maps.Marker({
+                              position: {lat:lat, lng:-122.3331},
+                              map: map,
+                              title: 'Hello World!'
+                              });
            });
       }
     });
+}
