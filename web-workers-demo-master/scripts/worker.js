@@ -19,7 +19,7 @@ this.onmessage = function(e) {
       imageData.data[i * 4 + 2] = pixel[2];
       imageData.data[i * 4 + 3] = pixel[3];
     }
-    console.log("pixel.length is", pixel.length)
+    console.log("imageData.data.length is", imageData.data.length)
     postMessage(imageData);
   } catch (e) {
     function ManipulationException(message) {
