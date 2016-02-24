@@ -6,6 +6,7 @@ this.onmessage = function(e) {
   console.log("the type received is: ", type);
   try {
     length = imageData.data.length / 4;
+    console.log("imageData.data.length is", length)
     pixel = manipulate(type, r, g, b, a);
     for (i = j = 0, ref = length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
       r = imageData.data[i * 4 + 0];
