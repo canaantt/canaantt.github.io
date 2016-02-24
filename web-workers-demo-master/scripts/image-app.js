@@ -65,13 +65,13 @@
         console.log("No manipulated image returned")
     }
 
-    /*imageWorker.onerror = function(error) {
+    imageWorker.onerror = function(error) {
       function WorkerException(message) {
         this.name = "WorkerException";
         this.message = message;
       }
       throw new WorkerException('worker error');
-    }*/
+    }
     
     return ctx.putImageData(imageData, 0, 0);
   };
