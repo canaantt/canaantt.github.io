@@ -5,7 +5,7 @@
   imageLoader.addEventListener('change', handleImage, false);
   var canvas = document.querySelector('#image');
   var ctx = canvas.getContext('2d');
-  var imageWorker = new Worker('scripts/worker.js');
+  //var imageWorker = new Worker('scripts/worker.js');
 
   function handleImage(e){
     var reader = new FileReader();
@@ -44,7 +44,7 @@
     // Hint! This is where you should post messages to the web worker and
     // receive messages from the web worker.
 
-    /*length = imageData.data.length / 4;
+    length = imageData.data.length / 4;
     for (i = j = 0, ref = length; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
       r = imageData.data[i * 4 + 0];
       g = imageData.data[i * 4 + 1];
@@ -55,8 +55,8 @@
       imageData.data[i * 4 + 1] = pixel[1];
       imageData.data[i * 4 + 2] = pixel[2];
       imageData.data[i * 4 + 3] = pixel[3];
-    }*/
-    imageWorker.postMessage({'imageData': imageData, 'type': type});
+    }
+    /*imageWorker.postMessage({'imageData': imageData, 'type': type});
 
     imageWorker.onmessage = function(e) {
         toggleButtonsAbledness();
@@ -71,8 +71,8 @@
         this.message = message;
       }
       throw new WorkerException('worker error');
-    }
-    
+    }*/
+    toggleButtonsAbledness();       
     return ctx.putImageData(imageData, 0, 0);
   };
 
