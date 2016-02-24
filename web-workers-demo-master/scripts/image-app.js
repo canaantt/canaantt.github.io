@@ -62,16 +62,16 @@
         toggleButtonsAbledness();
         var image = e.data;
         if(image) return ctx.putImageData(e.data, 0, 0);
-        console.log("No manipulated image returned");
+        console.log("No manipulated image returned")
     }
 
-    imageWorker.onerror = function(error) {
+    /*imageWorker.onerror = function(error) {
       function WorkerException(message) {
         this.name = "WorkerException";
         this.message = message;
       }
       throw new WorkerException('worker error');
-    }
+    }*/
     
     return ctx.putImageData(imageData, 0, 0);
   };
