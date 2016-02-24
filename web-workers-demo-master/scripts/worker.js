@@ -3,7 +3,7 @@ importScripts('imageManips.js');
 this.onmessage = function(e) {
   var imageData = e.data.imageData;
   var type = e.data.type;
-
+  console.log("the type received is: ", type);
   try {
     length = imageData.data.length / 4;
     pixel = manipulate(type, r, g, b, a);
