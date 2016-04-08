@@ -7,3 +7,7 @@ You've learned a lot about web development so far. I want you to take a moment t
 ---
 
 Your response goes here!
+1) I've learned how powerful the <p> tag is. I have never learned html in a systematic way. Though it looks simple, but to implement a specific mock-up requires more effort that I thought. It is a good exercise.
+2) The easy part is to lossely generate a webpage.
+3) The difficult part is to implement the exact details.
+4) Keep a positive attitude to face each problem, big or small and find the right solution. Do not be discouarged by difficulty yet do not underestimate the potential pit and falls.
