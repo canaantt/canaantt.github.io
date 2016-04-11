@@ -1,0 +1,23 @@
+{
+  "name": "updated",
+  "version": "1.0.0",
+  "description": "For Udacity Web Optimization Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "author"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/canaantt/canaantt.github.io/tree/master/FE_P4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minifier": "^0.1.4"
+  },
+  "keywords": [
+    "web",
+    "optimization"
+  ],
+  "author": "Jenny Zhang",
+  "license": "ISC"
+}
