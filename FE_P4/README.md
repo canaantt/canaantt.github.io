@@ -16,4 +16,6 @@ To get started, check out the repository, inspect the code,
 2. npm install
 3. gulp
 4. open index.html and click on link to Cam's Pizzeria
+5. defer loading js 
+
 
