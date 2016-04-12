@@ -12,7 +12,9 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-minifier": "^0.1.4"
+    "gulp-concat": "^2.6.0",
+    "gulp-minifier": "^0.1.4",
+    "gulp-rename": "^1.2.2"
   },
   "keywords": [
     "web",

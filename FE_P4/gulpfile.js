@@ -3,19 +3,22 @@ var gulp = require('gulp');
 
 // Include Our Plugins
 var minify = require('gulp-minifier');
+var concat = require('gulp-concat');
 
-gulp.task('views', function() {
+gulp.task('css', function() {
+  return gulp.src('views/css/*.css')
+    .pipe(concat('style.min.css'))
+    .pipe(gulp.dest('views/css'));
+});
+
+gulp.task('all', function() {
   return gulp.src('views/**/*').pipe(minify({
     minify: true,
     collapseWhitespace: true,
     conservativeCollapse: true,
     minifyJS: true,
-    minifyCSS: true,
-    getKeptComment: function (content, filePath) {
-        var m = content.match(/\/\*![\s\S]*?\*\//img);
-        return m && m.join('\n') + '\n' || '';
-    }
+    minifyCSS: true
   })).pipe(gulp.dest('dist'));
 });
 
-gulp.task('default');
+gulp.task('default', ['css', 'all']);
