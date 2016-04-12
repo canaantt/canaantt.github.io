@@ -11,7 +11,7 @@ gulp.task('css', function() {
     .pipe(gulp.dest('views/css'));
 });
 
-gulp.task('all', function() {
+gulp.task('default', function() {
   return gulp.src('views/**/*').pipe(minify({
     minify: true,
     collapseWhitespace: true,
@@ -20,5 +20,3 @@ gulp.task('all', function() {
     minifyCSS: true
   })).pipe(gulp.dest('dist'));
 });
-
-gulp.task('default', ['css', 'all']);

@@ -15,5 +15,5 @@ To get started, check out the repository, inspect the code,
 1. cd to FE_P4
 2. npm install
 3. gulp
-4. open index.html and click on link to Cam's pizza
+4. open index.html and click on link to Cam's Pizzeria
 
