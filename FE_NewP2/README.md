@@ -1,0 +1,1 @@
+# image 'a-humdinger-of-a-challenge' is from: https://answersingenesis.org/birds/the-hummingbird-gods-tiny-miracle/
