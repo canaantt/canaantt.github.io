@@ -507,25 +507,25 @@ function updatePositions() {
   var items = document.querySelectorAll('.mover');
   var sc = document.body.scrollTop / 1250;
 
-  ###
+  
   var phases = []; 
 
   for (var i = 0; i < 5; i++) {
-   phases.push(...);
+   phases.push(Math.sin(sc + (i % 5)));
   }
 
   var phase;
   for (var i = 0; i < items.length; i++) {
    phase = phases[i%5];
-   items[i].style.left = ...;
+   items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
-  ### need to expande
+  
 
 
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(sc + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  }
+  // for (var i = 0; i < items.length; i++) {
+  //   var phase = Math.sin(sc + (i % 5));
+  //   items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  // }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -542,17 +542,18 @@ window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
+  var movingPizzas = document.querySelector("#movingPizzas1");
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
+  for (var i = 0; i < 20; i++) { // remove the pained pizza number from 200 to 20
+    var elem = document.createElement('img'); 
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });

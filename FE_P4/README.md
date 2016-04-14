@@ -6,22 +6,24 @@ To get started, check out the repository, inspect the code,
 
 
 ### All the steps taken
-1. using gulp to minify css, js, html
+1. using npm and gulp to minify css, js, html
 2. modified two functions in views/js/main.js: 
   * updatePositions() 
+  	reduce the pained pizza number from 200 to 20
+  * changePizzaSizes()
     * var elems = document.querySelectorAll(".randomPizzaContainer"); So document.querySelectorAll only gets called once 
     * Two variables are taken out of the for loop:  var dx = determineDx(elems[1], size);, var newwidth = (elems[1].offsetWidth + dx) + 'px';
-    
-  * changePizzaSizes()
-3. delay css loading
+3. inline google font, inline css/style.css and views/css/style.css
+4. delay google analytical javascript loading
 4. reduced the size of the images
+
 
 ### to run 
 1. cd to FE_P4
 2. npm install
 3. gulp
 4. open index.html and click on link to Cam's Pizzeria
-5. defer loading js 
-5. 
+
+
 
 
