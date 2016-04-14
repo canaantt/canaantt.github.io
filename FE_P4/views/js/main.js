@@ -450,11 +450,12 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    var elem = document.querySelectorAll(".randomPizzaContainer")[1];
-    var dx = determineDx(elem, size);
-    var newwidth = (elem.offsetWidth + dx) + 'px';
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    // So document.querySelectorAll only gets called once 
+    var elems = document.querySelectorAll(".randomPizzaContainer");
+    var dx = determineDx(elems[1], size); // out of the for loop
+    var newwidth = (elems[1].offsetWidth + dx) + 'px'; // out of the for loop
+    for (var i = 0; i < elems.length; i++) {
+      elems[i].style.width = newwidth;
     }
   }
 
@@ -505,6 +506,22 @@ function updatePositions() {
 
   var items = document.querySelectorAll('.mover');
   var sc = document.body.scrollTop / 1250;
+
+  ###
+  var phases = []; 
+
+  for (var i = 0; i < 5; i++) {
+   phases.push(...);
+  }
+
+  var phase;
+  for (var i = 0; i < items.length; i++) {
+   phase = phases[i%5];
+   items[i].style.left = ...;
+  }
+  ### need to expande
+
+
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin(sc + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';

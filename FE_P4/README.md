@@ -7,7 +7,12 @@ To get started, check out the repository, inspect the code,
 
 ### All the steps taken
 1. using gulp to minify css, js, html
-2. modified two functions in views/js/main.js: updatePositions() and changePizzaSizes()
+2. modified two functions in views/js/main.js: 
+  * updatePositions() 
+    * var elems = document.querySelectorAll(".randomPizzaContainer"); So document.querySelectorAll only gets called once 
+    * Two variables are taken out of the for loop:  var dx = determineDx(elems[1], size);, var newwidth = (elems[1].offsetWidth + dx) + 'px';
+    
+  * changePizzaSizes()
 3. delay css loading
 4. reduced the size of the images
 
@@ -17,5 +22,6 @@ To get started, check out the repository, inspect the code,
 3. gulp
 4. open index.html and click on link to Cam's Pizzeria
 5. defer loading js 
+5. 
 
 
