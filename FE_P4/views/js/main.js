@@ -1,3 +1,4 @@
+'use strict';
 /*
 Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
 jank-free at 60 frames per second.
@@ -424,7 +425,7 @@ var resizePizzas = function(size) {
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    var windowWidth = document.getElementById("randomPizzas").offsetWidth; //change document.querySelector() to document.getElementById()
     var oldSize = oldWidth / windowWidth;
 
     // Optional TODO: change to 3 sizes? no more xl?
@@ -451,10 +452,12 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     // So document.querySelectorAll only gets called once 
-    var elems = document.querySelectorAll(".randomPizzaContainer");
+    var elems = document.getElementByClass("randomPizzaContainer");//change document.querySelector() to document.getElementByClass()
     var dx = determineDx(elems[1], size); // out of the for loop
     var newwidth = (elems[1].offsetWidth + dx) + 'px'; // out of the for loop
-    for (var i = 0; i < elems.length; i++) {
+     //save elems.length as a variable
+     var len = elems.length; 
+    for (var i = 0; i < len; i++) { 
       elems[i].style.width = newwidth;
     }
   }
@@ -545,8 +548,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var movingPizzas = document.querySelector("#movingPizzas1");
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 20; i++) { // remove the pained pizza number from 200 to 20
-    var elem = document.createElement('img'); 
+  var elem;
+  var row = Math.floor(window.screen.height/250);
+  var len = row * cols;
+  console.log("*****, len is: ", len);
+  for (var i = 0; i < len; i++) { // remove the pained pizza number from 200 to 20
+    elem = document.createElement('img'); 
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
