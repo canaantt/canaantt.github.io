@@ -452,7 +452,7 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     // So document.querySelectorAll only gets called once 
-    var elems = document.getElementByClass("randomPizzaContainer");//change document.querySelector() to document.getElementByClass()
+    var elems = document.getElementsByClassName("randomPizzaContainer"); //change document.querySelector() to document.getElementByClassName()
     var dx = determineDx(elems[1], size); // out of the for loop
     var newwidth = (elems[1].offsetWidth + dx) + 'px'; // out of the for loop
      //save elems.length as a variable
@@ -474,8 +474,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");//take out the pizzaDiv definition out of the for loop
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -518,7 +518,8 @@ function updatePositions() {
   }
 
   var phase;
-  for (var i = 0; i < items.length; i++) {
+  var itemsLen = items.length; //save the items length as a variable so within for loop, this value won't be checked during each iteration.
+  for (var i = 0; i < itemsLen; i++) {
    phase = phases[i%5];
    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }

@@ -15,11 +15,10 @@ To get started, check out the repository, inspect the code,
     * Two variables are taken out of the for loop:  var dx = determineDx(elems[1], size);, var newwidth = (elems[1].offsetWidth + dx) + 'px';
     * updated two for loops:line 460 and line 555, pre-calculated the length
     * line 555: adopt the comment from the reviewer to calculated how many rows needs to be covered with pizza in the background
-    * change document.querySelector() to document.getElementById() or document.getElementByClass()
-    
+    * change document.querySelector() to document.getElementById() or document.getElementByClassName()    
 3. inline google font, inline css/style.css and views/css/style.css
 4. delay google analytical javascript loading
-4. reduced the size of the images
+5. reduced the size of the images
 
 
 ### to run 
