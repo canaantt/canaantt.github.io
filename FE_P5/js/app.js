@@ -7,60 +7,49 @@ function initMap() {
   //geocoder.geocode({
   //      'address': address
   //};
+  var seattle = new google.maps.LatLng(47.6927623,-122.3387651);
+
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat:40.7589768, lng:-74.109316},
-    //center: address.geometry.location,
+    center: seattle,
     scrollwheel: true,
-    zoom: 8
+    zoom: 11
   });
 
-  var $token = "4851e3bfa40ae730be9fcd08ce7010e11b4e79cb";
+ 
+  var request = {
+      location: seattle,
+      radius: '20000',
+      keyword: ['best view'] //should be table to take in input
+    };
 
-  var url = "http://streeteasy.com/nyc/api/areas/for_location?" +
-            "lon=" + "-74.0076" + "&lat=" + "40.7186&" + 
-            "key=" + $token + "&format=json";
+  // Create the PlaceService and send the request.
+  // Handle the callback with an anonymous function.
+  var service = new google.maps.places.PlacesService(map);
+  
+  var sidebar = $("#gldimes-records");
+  service.nearbySearch(request, function(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        var place = results[i];
+        // If the request succeeds, draw the place location on
+        // the map as a marker, and register an event to handle a
+        // click on the marker.
+        console.log("*****", place.name);
+        sidebar.append("<li><a href=" + "'" + + place.name + "</li>");
+        var photos = place.photos;
+        if (!photos) {
+          return;
+        }
 
-
-
-// var lat = 47.6097;
-// var $yelpHeaderElem = $('#yelpimes-header');
-// var $yelpElem = $('#yelpimes-records');
-// $("form").submit(function(event) {
-//         var $city = $("#city").val();
-//         var $street = $("#street").val();
-//         $searchTerm = $city;
-//         var $address = $street.trim() + ", " + $city;
-//         console.log("address is :" + $address);
-//         var imageTag = '<img class="bgimg" src="http://maps.googleapis.com/maps/api/streetview?size=600x400&location=' + $address + '">';
-//         $body.append(imageTag);
-//     });
-//$searchTerm = $("#city").val();
-// var $consumer_key = "50FjBMSKJUh2OaE_fiVt2w";
-// var $consumer_secret = "stqahr_NGTX0_PJvLxRVhBo7rsw";
-// var $token = "4P9jlOJ_7H4s8lLgmzWLTzadzzckHxO9";
-// var $token_secret = "Y07An4DVAfc152afg664HCWpexU";
-// var $searchTerm = "pharmaceutical";
-// var $location = "Seattle";
-
-
-
- console.log("url is:" + url);
- $.ajax({
-      url: url,
-      dataType: "jsonp",
-      success: function(response){
-           var articles = response.response.employers;
-           console.log("StreetEasy Search Engine: ", articles);
-           articles.forEach(function(art){
-             $yelpElem.append('<li><a target="_blank" href="http://' + art.website + '">' + art.name + '</a></li>');
-             lat = lat - 0.1; 
-             var marker = new google.maps.Marker({
-                              position: {lat:lat, lng:-122.3331},
-                              map: map,
-                              title: 'Hello World!'
-                              });
-           });
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location,
+          title: place.name
+          //icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35})
+        })
       }
-     });
- }
+     } 
+  });
+}
 
+initMap();
