@@ -19,7 +19,7 @@ function initMap() {
   var request = {
       location: seattle,
       radius: '20000',
-      keyword: ['best view'] //should be table to take in input
+      keyword: ['restaurant'] //should be table to take in input
     };
 
   // Create the PlaceService and send the request.
@@ -34,8 +34,8 @@ function initMap() {
         // If the request succeeds, draw the place location on
         // the map as a marker, and register an event to handle a
         // click on the marker.
-        console.log("*****", place.name);
-        sidebar.append("<li><a href=" + "'" + + place.name + "</li>");
+        console.log("*****", place);
+        sidebar.append("<li><a href='#'>"+ place.name + "</a></li>");
         var photos = place.photos;
         if (!photos) {
           return;
@@ -50,6 +50,24 @@ function initMap() {
       }
      } 
   });
+
+  var moreDetails = function(place) {
+    var event = event
+    // for(var key in self.mapMarkers()) {
+    //   if(clickedDealName === self.mapMarkers()[key].marker.title) {
+        map.panTo(self.mapMarkers()[key].marker.position);
+        map.setZoom(14);
+        infowindow.setContent(self.mapMarkers()[key].content);
+        infowindow.open(map, self.mapMarkers()[key].marker);
+        map.panBy(0, -150);
+        self.mobileShow(false);
+        self.searchStatus('');
+    //   }
+    // }
+  };
+
+
+
 }
 
 initMap();
