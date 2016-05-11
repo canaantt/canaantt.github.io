@@ -16,11 +16,14 @@ function octopus(){
           zoom: 11
         });
 
-       
-        request = {
-            location: city,
-            radius: '20000',
-            keyword: ['restaurant'] //should be table to take in input
+       GetLocationsOfInterest(city,'restaurant', 20000)
+    }
+
+    function GetLocationsOfInterest(cityName, keyword, radius) {
+       request = {
+            location: cityName,
+            radius: radius,
+            keyword: [keyword] //should be table to take in input
           };
 
         // Create the PlaceService and send the request.
@@ -53,7 +56,7 @@ function octopus(){
             placesArray = results;
            } 
         });
-
+        
         moreDetails = function(place) {
           var event = event
           // for(var key in self.mapMarkers()) {
@@ -69,8 +72,6 @@ function octopus(){
           // }
         };
     }
-
-
 
 
 
