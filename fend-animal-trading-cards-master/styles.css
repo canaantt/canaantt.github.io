@@ -7,7 +7,7 @@ body {
 	width: 350px;
   	margin: 0 auto;
   	border: 1px solid #e6e6e6;
-    box-shadow: 2px 5px 2px #CBCBCB;
+    box-shadow: 2px 5px 2px #cbcbcb;
 }
 
 .inner {
@@ -22,12 +22,12 @@ body {
 	border: 2px solid #e6e6e6;
 }
 
-img {
+.animal-image {
 	width: 100% ;
 	border-style: none;
 }
 
-h3 {
+.animal-title {
 	padding-left: 20px;
 	font-weight: 700;
 	font-size: 36px;
@@ -39,11 +39,11 @@ ul {
     padding-left:0;
 }
 
-li {
+.facts-list {
 	font-style: italic;
 }
 
-li span {
+.fact-label {
 	font-weight: 900;
 	font-style: normal;
 }
