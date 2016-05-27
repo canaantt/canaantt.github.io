@@ -4,33 +4,24 @@ body {
 }
 
 .outer {
-	width: 50% ;
-  	margin-left: auto ;
-  	margin-right: auto ;
-  	border-style: solid;
-    border-width: 1px;
-    border-color: #e6e6e6;
+	width: 350px;
+  	margin: 0 auto;
+  	border: 1px solid #e6e6e6;
     box-shadow: 2px 5px 2px #CBCBCB;
 }
 
 .inner {
-	width: 95%;
-	margin-left: auto;
-	margin-right: auto; 
+	width: 300px;
+	margin: 15px auto;
 	border-style: none;
-    margin-top: 15px;
-    margin-bottom: 15px;
 }
-.inner2 {
-	width: 95%;
-	margin-left: auto;
-	margin-right: auto; 
-	border-style: solid;
-    border-width: 2px;
-    border-color: #e6e6e6;
-    margin-top: 15px;
-    margin-bottom: 15px;
+
+.animal-info-container {
+	width: 300px;
+	margin: 15px auto;
+	border: 2px solid #e6e6e6;
 }
+
 img {
 	width: 100% ;
 	border-style: none;
@@ -57,13 +48,11 @@ li span {
 	font-style: normal;
 }
 
-p, ul{
-	margin-left: 20px;
-	margin-right: 20px;
-	margin-top: 20px;
-	margin-bottom: 20px;
+p, 
+ul{
+	margin: 20px;
 }
 
-.firstLine{
+.first-line{
 	font-style: italic;
 }
