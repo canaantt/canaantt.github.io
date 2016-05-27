@@ -1,0 +1,69 @@
+/* add your CSS here */
+body {
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+}
+
+.outer {
+	width: 50% ;
+  	margin-left: auto ;
+  	margin-right: auto ;
+  	border-style: solid;
+    border-width: 1px;
+    border-color: #e6e6e6;
+    box-shadow: 2px 5px 2px #CBCBCB;
+}
+
+.inner {
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto; 
+	border-style: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.inner2 {
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto; 
+	border-style: solid;
+    border-width: 2px;
+    border-color: #e6e6e6;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+img {
+	width: 100% ;
+	border-style: none;
+}
+
+h3 {
+	padding-left: 20px;
+	font-weight: 700;
+	font-size: 36px;
+	margin-bottom: 0px;
+}
+
+ul {
+	list-style:none;
+    padding-left:0;
+}
+
+li {
+	font-style: italic;
+}
+
+li span {
+	font-weight: 900;
+	font-style: normal;
+}
+
+p, ul{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.firstLine{
+	font-style: italic;
+}
