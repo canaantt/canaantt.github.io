@@ -5,9 +5,9 @@ body {
 
 .outer {
 	width: 350px;
-  	margin: 0 auto;
-  	border: 1px solid #e6e6e6;
-    box-shadow: 2px 5px 2px #cbcbcb;
+	margin: 0 auto;
+	border: 1px solid #e6e6e6;
+	box-shadow: 2px 5px 2px #cbcbcb;
 }
 
 .inner {
@@ -31,12 +31,12 @@ body {
 	padding-left: 20px;
 	font-weight: 700;
 	font-size: 36px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 ul {
-	list-style:none;
-    padding-left:0;
+	list-style: none;
+	padding-left: 0;
 }
 
 .facts-list {
@@ -48,11 +48,11 @@ ul {
 	font-style: normal;
 }
 
-p, 
+p,
 ul{
 	margin: 20px;
 }
 
-.first-line{
+.first-line {
 	font-style: italic;
 }
