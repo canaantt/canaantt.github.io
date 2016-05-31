@@ -1,49 +1,12 @@
 'use strict';
-function octopus(){
-    var self = this;
+var places = [];
+var markersArray = [];
+var markersTitles = []; 
+//function Octopus() {
+    //var self = this;
     var city, map, request, service, sidebar, infowindow; 
-    this.placesArray = ko.observableArray([]);
-    this.markersArray = ko.observableArray([]);
-
-    //Click on any name on the side bar, the matching marker should be the
-    // the only on shown on the map
-    this.filter = function(placeClicked){
-      var name = placeClicked.innerText;
-
-    }
-
-    //Click on the marker, a detailed information box should pop up
-    this.moreDetail = function(){
-
-    }
-
-    //Click on the side to clear the selection 
-    this.clear = function(){
-      
-    }
-
-    // Initialize the app
-    function initMap() {
-
-        city = new google.maps.LatLng(47.6927623,-122.3387651);
-
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: city,
-          scrollwheel: true,
-          zoom: 11
-        });
-
-        service = new google.maps.places.PlacesService(map);
-        infowindow = new google.maps.InfoWindow();
-        GetLocationsOfInterest(service, city,'restaurant', 20000);
-        
-        
-
-        console.log("***** placesArray in initMap: ", self.placesArray);
-    }
-
-
-
+    
+    //API call to get the result from Google Place API service
     function GetLocationsOfInterest(service, cityName, keyword, radius) {
        request = {
             location: cityName,
@@ -51,34 +14,81 @@ function octopus(){
             keyword: [keyword] //should be table to take in input
           };
 
-        // Create the PlaceService and send the request.
-        // Handle the callback with an anonymous function.
-        //service = new google.maps.places.PlacesService(map);
-        sidebar = $("#gldimes-records");
+        /** Create the PlaceService and send the request.
+         Handle the callback with an anonymous function.
+         service = new google.maps.places.PlacesService(map);**/
+
+        sidebar = $("#reslist-records");
         service.nearbySearch(request, function(results, status) {
           if (status == google.maps.places.PlacesServiceStatus.OK) {
+            
             for (var i = 0; i < results.length; i++) {
-              var place = results[i];
-              // If the request succeeds, draw the place location on
-              // the map as a marker, and register an event to handle a
-              // click on the marker.
-              console.log(place);
-              sidebar.append("<li class='listName'><a href='#'>"+ place.name + "</a></li>");
-              var marker = new google.maps.Marker({
-                map: map,
-                position: place.geometry.location,
-                title: place.name,
-                placeID: place.place_id,
-                //icon: photos[0].getUrl({'maxWidth': 35, 'maxHeight': 35})
-              });
-              self.markersArray.push(marker);
-              self.placesArray.push(place);
-            }
-            $('.listName').click(filter);
-        
-            console.log(self.markersArray);
+                var place = results[i];
+                /** If the request succeeds, draw the place location on
+                 the map as a marker, and register an event to handle a
+                 click on the marker. **/
+                sidebar.append("<li class='listName'><a href='#'>"+ place.name + "</a></li>");
+                var marker = drawMarker(map, place);
+                places.push(place);
+                markersArray.push(marker);
+              }
            } 
         });
+        console.log(places.length);
+        console.log(markersArray.length);
+        console.log("end of GetLocationsOfInterest");
+    }
+
+    //Mark all the places from API call
+    function drawMarker(map, place){
+      var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location,
+              title: place.name,
+              placeID: place.place_id
+              });
+      new google.maps.event.trigger(marker, moreDetail);
+      return marker;
+    }
+
+    //Click on any name on the side bar, the matching marker should be the
+    // the only on shown on the map
+    function markerVisibility(markersArray){
+      
+    }
+    function filter(placeClicked){ 
+        var name = placeClicked.target.innerText;
+        console.log("within the this.filter function, and the place clicked is ", name);
+        console.log(markersArray);
+        for(var i=0;i<markersArray.length;i++){
+          markersTitles.push(markersArray[i].title);
+        }
+        console.log(markersTitles.indexOf(name));
+        //debugger;
+        
+        markersArray
+        var marker = markersArray[markersTitles.indexOf(name)];
+
+        //markersArray.splice(markersTitles.indexOf(name), 1);
+        //clearMarkers(markersArray);
+    }
+
+    //Click on the marker, a detailed information box should pop up
+    function moreDetail(marker){
+        console.log(marker);
+        var place_ids=[];
+        for(var i=0; i<places.length; i++){
+          place_ids.push(places[i].place_id);
+        }
+        var pos = place_ids.indexOf(marker.placeID);
+        console.log(places[pos]);
+    }
+
+    //Click on the side to clear the selection 
+    function clearMarkers(markersArray){
+        for(var i=0; i<markersArray.length; i++){
+          markersArray[i].setMap(null);
+        }
     }
 
     function placeDetailsByPlaceId(name, service, map, infowindow) {
@@ -122,16 +132,35 @@ function octopus(){
         }
       });
     }
+
+    // Initialize the app
+    function initMap() {
+
+        city = new google.maps.LatLng(47.6927623,-122.3387651);
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: city,
+          scrollwheel: true,
+          zoom: 11
+        });
+
+        service = new google.maps.places.PlacesService(map);
+        infowindow = new google.maps.InfoWindow();
+        GetLocationsOfInterest(service, city,'restaurant', 20000);        
+    }
+
+    $('.listName').click(filter);
+    $('#markerClearButton').click(clearMarkers);
+  
     initMap();
-}
+//}
 
+// ko.bindingHandlers.selectOnFocus = {
+//         update: function (element) {
+//           ko.utils.registerEventHandler(element, 'focus', function (e) {
+//             element.select();
+//           });
+//         }
+//       };
 
-ko.bindingHandlers.selectOnFocus = {
-        update: function (element) {
-          ko.utils.registerEventHandler(element, 'focus', function (e) {
-            element.select();
-          });
-        }
-      };
-
-ko.applyBindings(new octopus());
+//ko.applyBindings(new Octopus());

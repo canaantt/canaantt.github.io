@@ -13,13 +13,16 @@
         <div class="main-nav">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for...">
-            <span>
-                 <a class="btn btn-sm btn-info" type="button" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='powered-by-google' /></a>
-            </span>
+            <form>
+                <button id ="markerClearButton" type="button" class="btn btn-primary">Clear</button>
+                <span>
+                     <a class="btn btn-info" type="button" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='powered-by-google' /></a>
+                </span>
+            </form>
         </div><!-- /input-group -->
         <div class="menu">
-            <h3 id="gldimes-header"></h3>
-            <ul id="gldimes-records">Type in an address above and find more here!</ul>
+            <h3 id="reslist-header"></h3>
+            <ul id="reslist-records">Type in an address above and find more here!</ul>
         </div>
     </div>
         <div id="map" class="main-content"></div>
