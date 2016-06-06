@@ -1,7 +1,9 @@
 'use strict';
 var places = [];
-var markersArray = [];
+var markers = [];
 var markersTitles = []; 
+var marker_names = [];
+var place_names = [];
 //function Octopus() {
     //var self = this;
     var city, map, request, service, sidebar, infowindow; 
@@ -29,14 +31,16 @@ var markersTitles = [];
                  click on the marker. **/
                 sidebar.append("<li class='listName'><a href='#'>"+ place.name + "</a></li>");
                 var marker = drawMarker(map, place);
+                
+
                 places.push(place);
-                markersArray.push(marker);
+                place_names.push(place.name);
+                markers.push(marker);
+                marker_names.push(marker.title);
               }
-           } 
+           }
+           markers.forEach(moreDetail);  
         });
-        console.log(places.length);
-        console.log(markersArray.length);
-        console.log("end of GetLocationsOfInterest");
     }
 
     //Mark all the places from API call
@@ -47,95 +51,80 @@ var markersTitles = [];
               title: place.name,
               placeID: place.place_id
               });
+      marker.tooltipContent = marker.title;
       new google.maps.event.trigger(marker, moreDetail);
+      
       return marker;
     }
 
     //Click on any name on the side bar, the matching marker should be the
     // the only on shown on the map
-    function markerVisibility(markersArray){
-      
+    function markerVisibility(markers){
+
     }
     function filter(placeClicked){ 
         var name = placeClicked.target.innerText;
         console.log("within the this.filter function, and the place clicked is ", name);
-        console.log(markersArray);
-        for(var i=0;i<markersArray.length;i++){
-          markersTitles.push(markersArray[i].title);
+        console.log(markers);
+        for(var i=0;i<markers.length;i++){
+          markersTitles.push(markers[i].title);
         }
         console.log(markersTitles.indexOf(name));
         //debugger;
         
-        markersArray
-        var marker = markersArray[markersTitles.indexOf(name)];
+        markers
+        var marker = markers[markersTitles.indexOf(name)];
 
-        //markersArray.splice(markersTitles.indexOf(name), 1);
-        //clearMarkers(markersArray);
+        //markers.splice(markersTitles.indexOf(name), 1);
+        //clearMarkers(markers);
     }
 
     //Click on the marker, a detailed information box should pop up
     function moreDetail(marker){
-        console.log(marker);
-        var place_ids=[];
-        for(var i=0; i<places.length; i++){
-          place_ids.push(places[i].place_id);
-        }
-        var pos = place_ids.indexOf(marker.placeID);
-        console.log(places[pos]);
+        var pos = marker_names.indexOf(marker.title);
+
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">'+marker.title+'</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>Location: '+places[pos].vicinity+'</b></p>'+
+            '<p><b>Rating: '+places[pos].rating+'</b></p>';
+            
+
+       if(typeof(places[pos].price_level) !== "undefined"){
+            contentString = contentString + '<p><b>Price Level: '+places[pos].price_level+'</b></p>';; 
+        }    
+
+       if(typeof(places[pos].photos) === "undefined"){
+           contentString = contentString + '</div></div>';
+        }else{
+           contentString = contentString + '<img src="'+places[pos].photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300})+
+                              '" alt='+ marker.title+'></div></div>'; 
+        }     
+            
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 350
+          });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
     }
 
     //Click on the side to clear the selection 
-    function clearMarkers(markersArray){
-        for(var i=0; i<markersArray.length; i++){
-          markersArray[i].setMap(null);
+    function clearMarkers(){
+        for(var i=0; i<markers.length; i++){
+          markers[i].setMap(null);
         }
-    }
-
-    function placeDetailsByPlaceId(name, service, map, infowindow) {
-      // Create and send the request to obtain details for a specific place,
-      // using its Place ID.
-      this.goToMarker = function(name) {
-        for(var key in self.mapMarkers()) {
-          if(name === self.mapMarkers()[key].marker.title) {
-            map.panTo(self.mapMarkers()[key].marker.position);
-            map.setZoom(14);
-            infowindow.setContent(self.mapMarkers()[key].content);
-            infowindow.open(map, self.mapMarkers()[key].marker);
-            map.panBy(0, -150);
-            self.mobileShow(false);
-            self.searchStatus('');
-          }
-        }
-      };
-
-      var request = {
-        placeId: document.getElementById('place-id').value
-      };
-
-      service.getDetails(request, function (place, status) {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
-          // If the request succeeds, draw the place location on the map
-          // as a marker, and register an event to handle a click on the marker.
-          var marker = new google.maps.Marker({
-            map: map,
-            position: place.geometry.location
-          });
-
-          google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-              'Place ID: ' + place.place_id + '<br>' +
-              place.formatted_address + '</div>');
-            infowindow.open(map, this);
-          });
-
-          map.panTo(place.geometry.location);
-        }
-      });
     }
 
     // Initialize the app
     function initMap() {
 
+        var searchKeyWords = $("#userSearchInput");
+        var city = searchKeyWords.split(',')[0].toLowerCase();
+        var keyword = searchKeyWords.split(',')[1].toLowerCase();
         city = new google.maps.LatLng(47.6927623,-122.3387651);
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -145,9 +134,11 @@ var markersTitles = [];
         });
 
         service = new google.maps.places.PlacesService(map);
-        infowindow = new google.maps.InfoWindow();
-        GetLocationsOfInterest(service, city,'restaurant', 20000);        
+        GetLocationsOfInterest(service, city, keyword, 20000);
+
     }
+
+
 
     $('.listName').click(filter);
     $('#markerClearButton').click(clearMarkers);
@@ -155,12 +146,3 @@ var markersTitles = [];
     initMap();
 //}
 
-// ko.bindingHandlers.selectOnFocus = {
-//         update: function (element) {
-//           ko.utils.registerEventHandler(element, 'focus', function (e) {
-//             element.select();
-//           });
-//         }
-//       };
-
-//ko.applyBindings(new Octopus());
