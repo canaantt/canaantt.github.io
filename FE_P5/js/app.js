@@ -122,9 +122,13 @@ var place_names = [];
     // Initialize the app
     function initMap() {
 
-        var searchKeyWords = $("#userSearchInput");
-        var city = searchKeyWords.split(',')[0].toLowerCase();
-        var keyword = searchKeyWords.split(',')[1].toLowerCase();
+        // var searchKeyWords = document.getElementById("userSearchInput").value;
+        // console.log(searchKeyWords);
+        // var city = searchKeyWords.split(",")[0].toLowerCase();
+        // var keyword = searchKeyWords.split(',')[1].toLowerCase();
+        
+        // console.log(city);
+        // console.log(keyword);
         city = new google.maps.LatLng(47.6927623,-122.3387651);
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -134,7 +138,7 @@ var place_names = [];
         });
 
         service = new google.maps.places.PlacesService(map);
-        GetLocationsOfInterest(service, city, keyword, 20000);
+        GetLocationsOfInterest(service, city, "restaurant", 20000);
 
     }
 
