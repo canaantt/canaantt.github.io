@@ -31,8 +31,6 @@ var place_names = [];
                  click on the marker. **/
                 sidebar.append("<li class='listName'><a href='#'>"+ place.name + "</a></li>");
                 var marker = drawMarker(map, place);
-                
-
                 places.push(place);
                 place_names.push(place.name);
                 markers.push(marker);
@@ -59,26 +57,13 @@ var place_names = [];
 
     //Click on any name on the side bar, the matching marker should be the
     // the only on shown on the map
-    function markerVisibility(markers){
-
+    function filter(placeClicked){
+      clearMarkers();
+      var pos = marker_names.indexOf(placeClicked);
+      markers[pos].setVisible(true);
+      
     }
-    function filter(placeClicked){ 
-        var name = placeClicked.target.innerText;
-        console.log("within the this.filter function, and the place clicked is ", name);
-        console.log(markers);
-        for(var i=0;i<markers.length;i++){
-          markersTitles.push(markers[i].title);
-        }
-        console.log(markersTitles.indexOf(name));
-        //debugger;
-        
-        markers
-        var marker = markers[markersTitles.indexOf(name)];
-
-        //markers.splice(markersTitles.indexOf(name), 1);
-        //clearMarkers(markers);
-    }
-
+    
     //Click on the marker, a detailed information box should pop up
     function moreDetail(marker){
         var pos = marker_names.indexOf(marker.title);
@@ -115,11 +100,17 @@ var place_names = [];
     //Click on the side to clear the selection 
     function clearMarkers(){
         for(var i=0; i<markers.length; i++){
-          markers[i].setMap(null);
+          markers[i].setVisible(false);
         }
+        $(".listName").toggle();
     }
 
     // Initialize the app
+    function getEventTarget(e) {
+        e = e || window.event;
+        return e.target || e.srcElement; 
+    }
+
     function initMap() {
 
         // var searchKeyWords = document.getElementById("userSearchInput").value;
@@ -143,8 +134,12 @@ var place_names = [];
     }
 
 
-
-    $('.listName').click(filter);
+    var ul = document.getElementById('reslist-records');
+    ul.onclick = function(event) {
+        var target = getEventTarget(event);
+        console.log(target);
+        filter(target.innerHTML);
+    };
     $('#markerClearButton').click(clearMarkers);
   
     initMap();
