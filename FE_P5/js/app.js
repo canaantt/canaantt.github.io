@@ -5,7 +5,6 @@ var markersTitles = [];
 var marker_names = [];
 var place_names = [];
 //function Octopus() {
-    //var self = this;
     var city, map, request, service, sidebar, infowindow; 
     
     //API call to get the result from Google Place API service
@@ -102,7 +101,7 @@ var place_names = [];
         for(var i=0; i<markers.length; i++){
           markers[i].setVisible(false);
         }
-        $(".listName").toggle();
+        //$(".listName").toggle();
     }
 
     // Initialize the app
@@ -113,13 +112,6 @@ var place_names = [];
 
     function initMap() {
 
-        // var searchKeyWords = document.getElementById("userSearchInput").value;
-        // console.log(searchKeyWords);
-        // var city = searchKeyWords.split(",")[0].toLowerCase();
-        // var keyword = searchKeyWords.split(',')[1].toLowerCase();
-        
-        // console.log(city);
-        // console.log(keyword);
         city = new google.maps.LatLng(47.6927623,-122.3387651);
 
         map = new google.maps.Map(document.getElementById('map'), {
