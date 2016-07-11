@@ -19,10 +19,14 @@
                      <a class="btn btn-info" type="button" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='powered-by-google' /></a>
                 </span>
             </form>
+            <input placeholder= "filter by name" data-bind="textInput: query" />
         </div><!-- /input-group -->
         <div class="menu">
             <h3 id="reslist-header"></h3>
-            <ul id="reslist-records">Type in an address above and find more here!</ul>
+            <h4>Type in an address above and find more here!</h4>
+            <ul id="reslist-records" data-bind="foreach: filteredPlaces">
+              <li data-bind="text: name, click: marker.openWindow"></li>
+            </ul>
         </div>
     </div>
         <div id="map" class="main-content"></div>
@@ -33,7 +37,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhNWpNpPsfBzj8kjVbZk4LpGko1IKgjs0&libraries=geometry,places"></script>
         <script src="js/app.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhNWpNpPsfBzj8kjVbZk4LpGko1IKgjs0&libraries=geometry,places&callback=initMap"></script>
     </body>
 </html>
