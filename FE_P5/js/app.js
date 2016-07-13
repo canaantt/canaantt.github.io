@@ -1,9 +1,6 @@
 'use strict';
 
 var markers = [];
-var markersTitles = []; 
-var marker_names = [];
-var place_names = [];
 var city, map, request, service, sidebar, infowindow, vm; 
     
 function ViewModel(){
@@ -11,25 +8,47 @@ function ViewModel(){
   
   self.places = ko.observableArray();
   self.query = ko.observable();
-  
+  self.city = ko.observable();
+  self.keyword = ko.observable();
+
   self.filteredPlaces = ko.computed(function() {
-  if ( !self.query()) {
-      return self.places();
-  } else {
-    var filter = self.query().toLowerCase();
-    return ko.utils.arrayFilter(self.places(), function(place) {
-      if( place.name.toLowerCase().indexOf(filter) > -1){
-        place.marker.setVisible(true);
-        return true;
-      } else {
-        place.marker.setVisible(false);
-        return false;
-      } 
+    if ( !self.query()) {
+        return self.places();
+    } else {
+      var filter = self.query().toLowerCase();
+      return ko.utils.arrayFilter(self.places(), function(place) {
+        if( place.name.toLowerCase().indexOf(filter) > -1){
+          place.marker.setVisible(true);
+          return true;
+        } else {
+          place.marker.setVisible(false);
+          return false;
+        } 
+      });
+      }
     });
-    }
-  });
   
-  self.getLocationsOfInterest = function(service, cityName, keyword, radius) {
+  
+  self.onSubmit = function() 
+    {
+       var geocoder = new google.maps.Geocoder();
+       geocoder.geocode( { 'address': self.city()}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var latitude = results[0].geometry.location.lat();
+          var longitude = results[0].geometry.location.lng();
+          //alert(latitude, longitude);
+          var latLng = new google.maps.LatLng(latitude, longitude);
+           map = new google.maps.Map(document.getElementById('map'), {
+                  center: latLng,
+                  scrollwheel: true,
+                  zoom: 11
+                });
+          self.getLocationsOfInterest(service, latLng, self.keyword(), 20000);
+        } 
+      });  
+    }
+
+  self.getLocationsOfInterest = function(service, cityName, keyword = "restaurant", radius) {
        request = {
             location: cityName,
             radius: radius,
@@ -39,7 +58,7 @@ function ViewModel(){
         /** Create the PlaceService and send the request.
          Handle the callback with an anonymous function.
          service = new google.maps.places.PlacesService(map);**/
-
+        self.places().length = 0;
         service.nearbySearch(request, function(results, status) {
           if (status == google.maps.places.PlacesServiceStatus.OK) {
             
@@ -51,66 +70,65 @@ function ViewModel(){
 
                 place.marker = self.drawMarker(map, place);
                 self.places.push(place);
-                place_names.push(place.name);
               }
            }
         });
     }
 
-    //Mark all the places from API call
-    self.drawMarker = function(map, place){
-      var marker = new google.maps.Marker({
-              map: map,
-              position: place.geometry.location,
-              title: place.name,
-              placeID: place.place_id
-              });
-      marker.tooltipContent = marker.title;
+  //Mark all the places from API call
+  self.drawMarker = function(map, place){
+    var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location,
+            title: place.name,
+            placeID: place.place_id
+            });
+    marker.tooltipContent = marker.title;
+    
+    var contentString = '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          '<h1 id="firstHeading" class="firstHeading">'+ marker.title+'</h1>'+
+          '<div id="bodyContent">'+
+          '<p><b>Location: '+ place.vicinity +'</b></p>'+
+          '<p><b>Rating: '+ place.rating+'</b></p>';
+          
+
+     if(typeof( place.price_level) !== "undefined"){
+          contentString = contentString + '<p><b>Price Level: '+place.price_level+'</b></p>';; 
+      }    
+
+     if(typeof( place.photos) === "undefined"){
+         contentString = contentString + '</div></div>';
+      }else{
+         contentString = contentString + '<img src="'+place.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300})+
+                            '" alt='+ marker.title+'></div></div>'; 
+      }     
+
+      marker.openWindow = function(){ 
+          infowindow.setContent(contentString);
+          infowindow.open(map, marker);
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          setTimeout(function(){ marker.setAnimation(null); }, 750)
+      }     
+
+      marker.addListener('click', function() {
+         this.openWindow();
+      });
       
-      var contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">'+ marker.title+'</h1>'+
-            '<div id="bodyContent">'+
-            '<p><b>Location: '+ place.vicinity +'</b></p>'+
-            '<p><b>Rating: '+ place.rating+'</b></p>';
-            
-
-       if(typeof( place.price_level) !== "undefined"){
-            contentString = contentString + '<p><b>Price Level: '+place.price_level+'</b></p>';; 
-        }    
-
-       if(typeof( place.photos) === "undefined"){
-           contentString = contentString + '</div></div>';
-        }else{
-           contentString = contentString + '<img src="'+place.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300})+
-                              '" alt='+ marker.title+'></div></div>'; 
-        }     
-
-        marker.openWindow = function(){ 
-            infowindow.setContent(contentString);
-            infowindow.open(map, marker);
-            marker.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function(){ marker.setAnimation(null); }, 750)
-        }     
-
-        marker.addListener('click', function() {
-           this.openWindow();
-        });
-        
-        
-        
       
-      return marker;
-    }
+      
+    
+    return marker;
+  }
 }
 
 function initMap() {
 
-    city = new google.maps.LatLng(47.6927623,-122.3387651);
+    var defaultCity = new google.maps.LatLng(47.6927623,-122.3387651);
 
     map = new google.maps.Map(document.getElementById('map'), {
-      center: city,
+      center: defaultCity,
       scrollwheel: true,
       zoom: 11
     });
@@ -121,10 +139,37 @@ function initMap() {
 
     service = new google.maps.places.PlacesService(map);
     
+    var input = document.getElementById('locInput');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+    var keywords = [
+            "accounting",
+            "airport",
+            "amusement_park",
+            "aquarium","art_gallery","atm","bakery","bank","bar","beauty_salon","bicycle_store",
+            "book_store","bowling_alley","bus_station","cafe","campground","car_dealer","car_rental",
+            "car_repair","car_wash","casino","cemetery","church","city_hall","clothing_store",
+            "convenience_store","courthouse","dentist","department_store","doctor","electrician",
+            "electronics_store","embassy","fire_station","florist","funeral_home","furniture_store",
+            "gas_station","grocery_or_supermarket","gym","hair_care","hardware_store","home_goods_store",
+            "hospital","insurance_agency","jewelry_store","laundry","lawyer","library","liquor_store",
+            "local_government_office","locksmith","lodging","meal_delivery","meal_takeaway","mosque",
+            "movie_rental","movie_theater","moving_company","museum","night_club","painter","park","parking",
+            "pet_store","pharmacy","physiotherapist","plumber","police","post_office","real_estate_agency",
+            "restaurant","roofing_contractor","rv_park","school","shoe_store","shopping_mall","spa","stadium",
+            "storage","store","subway_station","synagogue","taxi_stand","train_station","transit_station",
+            "travel_agency", "university", "veterinary_care", "zoo"
+    ];
+    $( "#keywordInput" ).autocomplete({
+      source: keywords
+    });    
+
+
     vm = new ViewModel();
     ko.applyBindings(vm);
     
-    vm.getLocationsOfInterest(service, city, "restaurant", 20000);
+    vm.getLocationsOfInterest(service, defaultCity, "restaurant", 20000);
 
+    
 }
 
