@@ -48,7 +48,7 @@ html, body{
 
 
 h3{
-  color: #008080 !important;
+  color: #69BE28 !important;
   padding-left: 20px;
 }
 
@@ -60,7 +60,7 @@ h3{
     list-style: none;
     margin: 0;
     padding: 0;
-    color: #62EA13;
+    color: #69BE28;
 }
 
 .menu li {
@@ -79,6 +79,41 @@ h3{
 }
 
 .menu ul li {
-  color: #008080;
+  color: #69BE28;
 }
+
+.btn-outline {
+    color: #69BE28;
+    background-color: transparent;
+    border-color: #69BE28;
+}
+
+.input-wrapper{
+  border-color: #002244;
+  border-width: thin;
+  padding: 10 10 10 10;
+}
+
+.map_wrapper { 
+  position: relative; 
+}
+
+#weather {
+    position: absolute;
+    top: 70px;
+    right: 70px;
+    color: #002244;
+    width: 200px;
+    border: #002244;
+    border-style: dotted;
+    border-width: thin;
+    background-color:rgba(255,255,255,0.8);
+}
+
+#weather p {
+    font-style: oblique;
+    font-weight: 400;
+    margin: 0 0 1px;
+}
+
 

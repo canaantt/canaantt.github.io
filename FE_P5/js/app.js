@@ -2,6 +2,7 @@
 
 var markers = [];
 var city, map, request, service, sidebar, infowindow, vm; 
+var weatherAPIKey = "a9cd175d616e821fb23057b4a4407c4e";
     
 function ViewModel(){
   var self = this;
@@ -48,12 +49,15 @@ function ViewModel(){
       });  
     }
 
-  self.getLocationsOfInterest = function(service, cityName, keyword = "restaurant", radius) {
+  self.getLocationsOfInterest = function(service, coordinates, keyword = "restaurant", radius) {
        request = {
-            location: cityName,
+            location: coordinates,
             radius: radius,
             keyword: [keyword] //should be table to take in input
           };
+
+        /** The 3rd Party API to report regional weather using geocode **/  
+        self.weather(coordinates);  
 
         /** Create the PlaceService and send the request.
          Handle the callback with an anonymous function.
@@ -123,6 +127,30 @@ function ViewModel(){
     
     return marker;
   }
+
+  self.weather = function(coordinates) {
+    $("#weather").empty();
+    var weatherURL = "http://api.openweathermap.org/data/2.5/weather?"+
+                     "lat=" + coordinates.lat() +
+                     "&lon=" + coordinates.lng() + "&units=imperial" + 
+                     "&APPID=" + weatherAPIKey;
+    $.get(weatherURL, function(response){
+      console.log(response);
+      var city = response.name;
+      var weather = response.weather[0];
+      var wind = response.wind;
+      var main = response.main;
+      var weatherContent ='<p>' + "City: " + city + '</p>' +
+                          '<p>' + "Temperature: " + main.temp + "F" + '</p>' +
+                          '<p>' + main.temp_min + " ~ "+ main.temp_max + "F" + '</p>' +  
+                          '<p>' + "Current Weather: " +weather.description + '</p>' +
+                          '<p>' + "wind speed: " + wind.speed + " MPH" + '</p>' +
+                          '<p>' + "humidity: " + main.humidity + '</p>' +
+                          '<p>' + "pressure: " + main.pressure + " inches" + '</p>'
+      $("#weather").append(weatherContent);
+    })
+  }
+
 }
 
 function initMap() {

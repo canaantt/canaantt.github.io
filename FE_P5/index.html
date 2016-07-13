@@ -9,32 +9,38 @@
     <body class="page-wrap">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <h3>New to the Neighborhood? </h3>
+            <div id="weather">
+                <p>Today's Weather: </p>
+            </div>
         </header>
         <div class="main-nav">
-        <div class="input-group">
-            <form data-bind="submit: onSubmit">
-                <input id="locInput" type="text" class="form-control" placeholder="Seattle" data-bind="value: city, valueUpdate:'afterkeydown'">
-                <input id="keywordInput" type="text" class="form-control" placeholder="Restaurant" data-bind="value: keyword, valueUpdate:'afterkeydown'">
-                <button type="submit">Submit</button>
-            </form>
+            <div class="input-wrapper">
+                <div class="input-group">
+                    <form data-bind="submit: onSubmit">
+                        <input id="locInput" type="text" class="form-control" placeholder="Seattle" data-bind="value: city, valueUpdate:'afterkeydown'">
+                        <input id="keywordInput" type="text" class="form-control" placeholder="Restaurant" data-bind="value: keyword, valueUpdate:'afterkeydown'">
+                        <button class="btn btn-outline btn-md" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div>    
+                <form>
+                    <span>
+                         <a class="btn btn-default-lg" type="button" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='powered-by-google' /></a>
+                    </span>
+                </form>
+                <input placeholder= "filter by name" data-bind="textInput: query" />
+            </div><!-- /input-group -->
+            <div class="menu">
+                <h3 id="reslist-header"></h3>
+                <ul id="reslist-records" data-bind="foreach: filteredPlaces">
+                  <li data-bind="text: name, click: marker.openWindow"></li>
+                </ul>
+            </div>
         </div>
-        <div>    
-            <form>
-                <span>
-                     <a class="btn btn-default-lg" type="button" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='powered-by-google' /></a>
-                </span>
-            </form>
-            <input placeholder= "filter by name" data-bind="textInput: query" />
-        </div><!-- /input-group -->
-        <div class="menu">
-            <h3 id="reslist-header"></h3>
-            <h4>Type in an address above and find more here!</h4>
-            <ul id="reslist-records" data-bind="foreach: filteredPlaces">
-              <li data-bind="text: name, click: marker.openWindow"></li>
-            </ul>
+        <div id="map" class="main-content">
+            
         </div>
-    </div>
-        <div id="map" class="main-content"></div>
         
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,100,300,700">
         <link rel="stylesheet" href="css/style.css">
