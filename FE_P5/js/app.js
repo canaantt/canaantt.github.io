@@ -71,6 +71,8 @@ function ViewModel(){
                 place.marker = self.drawMarker(map, place);
                 self.places.push(place);
               }
+           }else{
+              alert(status);
            }
         });
     }
