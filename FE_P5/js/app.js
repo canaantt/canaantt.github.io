@@ -71,7 +71,7 @@ function ViewModel(){
                 /** If the request succeeds, draw the place location on
                  the map as a marker, and register an event to handle a
                  click on the marker. **/
-
+                
                 place.marker = self.drawMarker(map, place);
                 self.places.push(place);
               }
@@ -110,10 +110,11 @@ function ViewModel(){
          contentString = contentString + '<img src="'+place.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300})+
                             '" alt='+ marker.title+'></div></div>'; 
       }     
-
+      
       marker.openWindow = function(){ 
           infowindow.setContent(contentString);
           infowindow.open(map, marker);
+          self.wiki(place.name);
           marker.setAnimation(google.maps.Animation.BOUNCE);
           setTimeout(function(){ marker.setAnimation(null); }, 750)
       }     
@@ -149,6 +150,42 @@ function ViewModel(){
                           '<p>' + "pressure: " + main.pressure + " inches" + '</p>'
       $("#weather").append(weatherContent);
     })
+  }
+
+  self.wiki = function(name){
+    var url = "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page="+
+              name + "&callback=?";
+       
+    $.ajax({
+        type: "GET",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        async: false,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if(typeof(data.parse) !== "undefined") {
+                console.log(data.parse.text["*"]);
+                var blurb = $('<div>' + "<h4>Name Search Result from Wikipedia</h4>" + 
+                              data.parse.text["*"] + '</div>');
+   
+                // remove links as they will not work
+                blurb.find('a').each(function() { $(this).replaceWith($(this).html()); });
+     
+                // remove any references
+                blurb.find('img').remove();
+     
+                // remove cite error
+                blurb.find('.mw-ext-cite-error').remove();
+                $("#content").append(blurb);
+                //$('#content').html($(blurb).find('p'));
+            }
+        },
+        error: function (errorMessage) {
+            var blurb = '<div><h4>Name Search yiels no results from Wikipedia</h4></div>';
+            $("#content").append(blurb);
+        }
+    });
+
   }
 
 }
