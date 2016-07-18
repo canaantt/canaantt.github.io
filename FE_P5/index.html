@@ -9,11 +9,19 @@
     <body class="page-wrap">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <h3>New to the Neighborhood? </h3>
-            <div id="weather" data-bind="textInput:weatherRes">
-                <p>Today's Weather: </p>
-                <p data-bind="text: weatherRes.name"></p>
-                <!-- <p data-bind="text: weather.main.temp"> F</p>
-                <p data-bind="text: weather.main.temp_min"> F</p> -->
+            <div id="weather" data-bind="submit: onSubmit">
+                <div id="weatherOkStatus">
+                    <p data-bind="text: 'City: ' + weathercity()"></p> 
+                    <p>Current Weather:</p>
+                    <p>
+                        <span data-bind="text: temp() + 'F'"></span>
+                        <span data-bind="text: ' humidity: ' + humidity()"></span>
+                    </p>
+                    <p data-bind="text: 'wind speed: ' + wind().speed"></p>
+                    <p data-bind="text: weatherReport()"></p>
+                </div>
+                <!-- <div id ="weatherError" data-bind="text: 'ERROR: ' + weatherError()"></div> -->
+                
             </div>
         </header>
         <div class="main-nav">
@@ -22,7 +30,7 @@
                     <form data-bind="submit: onSubmit">
                         <input id="locInput" type="text" class="form-control" placeholder="Seattle" data-bind="value: city, valueUpdate:'afterkeydown'">
                         <input id="keywordInput" type="text" class="form-control" placeholder="Restaurant" data-bind="value: keyword, valueUpdate:'afterkeydown'">
-                        <button class="btn btn-outline btn-md" type="submit">Submit</button>
+                        <button class="btn btn-info btn-md" type="submit">Submit</button>
                     </form>
                 </div>
             </div>

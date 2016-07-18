@@ -22,7 +22,12 @@ function ViewModel(){
     self.query = ko.observable('');
     self.city = ko.observable();
     self.keyword = ko.observable();
-    self.weatherRes = ko.observable();
+    self.weathercity = ko.observable('');
+    self.wind = ko.observable('');
+    self.temp = ko.observable('');
+    self.weatherReport = ko.observable('');
+    self.humidity = ko.observable('');
+    self.weatherError = ko.observable('');
 
     self.filteredPlaces = ko.computed(function() {
         var filter = self.query().toLowerCase();
@@ -37,10 +42,11 @@ function ViewModel(){
         });
     });
 
-
     self.onSubmit = function() {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode( { 'address': self.city()}, function(results, status) {
+        //geocoder.geocode(function(results, status) {
+    
             if (status == google.maps.GeocoderStatus.OK) {
                 var latitude = results[0].geometry.location.lat();
                 var longitude = results[0].geometry.location.lng();
@@ -57,8 +63,7 @@ function ViewModel(){
                     };
 
                 /** The 3rd Party API to report regional weather using geocode **/  
-                //self.weather(latLng).then(function(){self.weatherRes()=response;});
-
+                self.weather(latLng);
                 /** Create the PlaceService and send the request.
                 Handle the callback with an anonymous function.
                 service = new google.maps.places.PlacesService(map);**/
@@ -78,6 +83,8 @@ function ViewModel(){
                         alert(status);
                     }
                 });
+            }else{
+                alert(status);
             } 
         });  
     };
@@ -90,7 +97,7 @@ function ViewModel(){
         };
 
         /** The 3rd Party API to report regional weather using geocode **/  
-        //self.weather(coordinates).then(function(){self.weatherRes()=response;});
+        self.weather(coordinates);
 
         /** Create the PlaceService and send the request.
         Handle the callback with an anonymous function.
@@ -185,69 +192,21 @@ function ViewModel(){
     };
 
     self.weather = function(coordinates){
-        //$("#weather").empty();
-            var weatherURL = "http://api.openweathermap.org/data/2.5/weather?"+
-                "lat=" + coordinates.lat() +
-                "&lon=" + coordinates.lng() + "&units=imperial" + 
-                "&APPID=" + weatherAPIKey;
-            $.get(weatherURL, function(response){
-                return new Promise(function(resolve, reject){
-                    resolve(reponse);
-                });
-              // var city = response.name;
-                // var weather = response.weather[0];
-                // var wind = response.wind;
-                // var main = response.main;
-                // var weatherContent ='<p>' + "City: " + city + '</p>' +
-                //     '<p>' + "Temperature: " + main.temp + "F" + '</p>' +
-                //     '<p>' + main.temp_min + " ~ "+ main.temp_max + "F" + '</p>' +  
-                //     '<p>' + "Current Weather: " +weather.description + '</p>' +
-                //     '<p>' + "wind speed: " + wind.speed + " MPH" + '</p>' +
-                //     '<p>' + "humidity: " + main.humidity + '</p>' +
-                //     '<p>' + "pressure: " + main.pressure + " inches" + '</p>';
-                // $("#weather").append(weatherContent);
-            });
+        var weatherURL = "http://api.openweathermap.org/data/2.5/weather?"+
+            "lat=" + coordinates.lat() +
+            "&lon=" + coordinates.lng() + "&units=imperial" 
+            + "&APPID=" + weatherAPIKey;
+        $.get(weatherURL, function(response){
+            self.weathercity(response.name);
+            self.temp(response.main.temp);
+            self.wind(response.wind);
+            self.weatherReport(response.weather[0].description);
+            self.humidity(response.main.humidity);
+        }).fail(function(jqXHR, status, error){
+            alert(JSON.parse(jqXHR.responseText).message);
+        });
     };
 
-    // self.wiki = function(name){
-    //     var url = "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page="+
-    //         name + "&callback=?";
-
-    //     $.ajax({
-    //     type: "GET",
-    //     url: url,
-    //     contentType: "application/json; charset=utf-8",
-    //     async: false,
-    //     dataType: "json",
-    //     success: function (data, textStatus, jqXHR) {
-    //         var blurb;
-    //         if(typeof(data.parse) !== "undefined") {
-    //             console.log(data.parse.text["*"]);
-    //             blurb = data.parse.text["*"];
-    //             // var blurb = $('<div>' + "<h4>Name Search Result from Wikipedia</h4>" + 
-    //             //               data.parse.text["*"] + '</div>');
-
-    //             // // remove links as they will not work
-    //             // blurb.find('a').each(function() { $(this).replaceWith($(this).html()); });
-
-    //             // // remove any references
-    //             // blurb.find('img').remove();
-
-    //             // // remove cite error
-    //             // blurb.find('.mw-ext-cite-error').remove();
-    //             // $("#content").append(blurb);
-    //             // //$('#content').html($(blurb).find('p'));
-    //             }else{
-    //                 blurb = '<div><h4>Name Search yiels no results from Wikipedia</h4></div>';
-    //                 // $("#content").append(blurb);
-    //             }
-    //             return blurb;
-    //         },
-    //     error: function (errorMessage) {
-    //             return errorMessage;
-    //         }
-    //     });
-    // }
 }
 
 function initMap() {
