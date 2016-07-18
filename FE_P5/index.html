@@ -9,8 +9,11 @@
     <body class="page-wrap">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <h3>New to the Neighborhood? </h3>
-            <div id="weather">
+            <div id="weather" data-bind="textInput:weatherRes">
                 <p>Today's Weather: </p>
+                <p data-bind="text: weatherRes.name"></p>
+                <!-- <p data-bind="text: weather.main.temp"> F</p>
+                <p data-bind="text: weather.main.temp_min"> F</p> -->
             </div>
         </header>
         <div class="main-nav">
