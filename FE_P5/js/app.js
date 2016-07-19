@@ -46,7 +46,6 @@ function ViewModel(){
     self.onSubmit = function() {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode( { 'address': self.city()}, function(results, status) {
-        //geocoder.geocode(function(results, status) {
     
             if (status == google.maps.GeocoderStatus.OK) {
                 var latitude = results[0].geometry.location.lat();
@@ -212,6 +211,10 @@ function ViewModel(){
         self.displayStatus(!self.displayStatus());
     }
 
+}
+
+window.gm_authFailure = function(){
+    alert("Google Map Connection Error. Please check Google API Key.");
 }
 
 function initMap() {
