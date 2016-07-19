@@ -1,3 +1,8 @@
+## Instruction
+### Open Index.html in browser. The detaulf city is "Seattle, WA", and the default key word is "restaurant". Too look at more detail, you can either click on the map marker, or search the place by typing in the input are with default value "filter by name". A information window with more detail will be opened up. 
+### In the detailed content information window, you can find the address of the business, the customer review from Zigzag. Some of the business infor window will provide the wikipedia entry. 
+
+
 ### How will I complete this Project?
 
 - [x] Download the Knockout framework. Knockout must be used to handle list, filter, and any other information on the page that is subject to changing state. Things that should not be handled by knockout: anything the map api is used for, tracking markers, making the map, refreshing the map.

@@ -80,7 +80,7 @@ function ViewModel(){
                             self.places.push(place);
                           }
                     }else{
-                        alert(status);
+                         alert(google.maps.places.PlacesServiceStatus.error_message);
                     }
                 });
             }else{
@@ -115,7 +115,7 @@ function ViewModel(){
                     self.places.push(place);
                   }
             }else{
-                alert(status);
+                alert(google.maps.places.PlacesServiceStatus.error_message);
             }
         });
     };
@@ -171,7 +171,7 @@ function ViewModel(){
                     infowindow.setContent(contentString1);
                     infowindow.open(map, marker);
                     marker.setAnimation(google.maps.Animation.BOUNCE);
-                    setTimeout(function(){ marker.setAnimation(null); }, 750);
+                    setTimeout(function(){ marker.setAnimation(null); }, 1400);
                 },
                 error: function (errorMessage) {
                     console.log("error");
@@ -179,7 +179,7 @@ function ViewModel(){
                     infowindow.setContent(contentString1);
                     infowindow.open(map, marker);
                     marker.setAnimation(google.maps.Animation.BOUNCE);
-                    setTimeout(function(){ marker.setAnimation(null); }, 750);
+                    setTimeout(function(){ marker.setAnimation(null); }, 1400);
                 }
             });
         };    
@@ -219,7 +219,8 @@ function initMap() {
             zoom: 11
             });
     infowindow = new google.maps.InfoWindow({
-                maxWidth: 350
+                maxWidth: 350,
+                maxHeight: 400
                 });
     service = new google.maps.places.PlacesService(map);
     var input = document.getElementById('locInput');
