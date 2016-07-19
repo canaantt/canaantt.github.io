@@ -28,6 +28,7 @@ function ViewModel(){
     self.weatherReport = ko.observable('');
     self.humidity = ko.observable('');
     self.weatherError = ko.observable('');
+    self.displayStatus = ko.observable(false);
 
     self.filteredPlaces = ko.computed(function() {
         var filter = self.query().toLowerCase();
@@ -206,6 +207,10 @@ function ViewModel(){
             alert(JSON.parse(jqXHR.responseText).message);
         });
     };
+
+    self.menuDisplay = function(){
+        self.displayStatus(!self.displayStatus());
+    }
 
 }
 

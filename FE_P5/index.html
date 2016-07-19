@@ -8,51 +8,44 @@
     </head>
     <body class="page-wrap">
         <header class="navbar navbar-inverse navbar-fixed-top">
-            <h3>New to the Neighborhood? </h3>
-            <div id="weather" data-bind="submit: onSubmit">
-                <div id="weatherOkStatus">
-                    <p data-bind="text: 'City: ' + weathercity()"></p> 
-                    <p>Current Weather:</p>
-                    <p>
-                        <span data-bind="text: temp() + 'F'"></span>
-                        <span data-bind="text: ' humidity: ' + humidity()"></span>
-                    </p>
-                    <p data-bind="text: 'wind speed: ' + wind().speed"></p>
-                    <p data-bind="text: weatherReport()"></p>
-                </div>
-                <!-- <div id ="weatherError" data-bind="text: 'ERROR: ' + weatherError()"></div> -->
-                
+            <a id="toggleMenu" href="javascript:void(0);" style="font-size:15px;" data-bind="click:menuDisplay">☰</a>
+            <span id="appTitle">New to the Neighborhood?</span>
+            <div id="weather" class="nav navbar-nav pull-right" data-bind="submit: onSubmit">
+                <p>
+                    <span data-bind="text: weathercity() + ' Current Weather:'"></span>
+                    <span data-bind="text: weatherReport()"></span>
+                    <span data-bind="text: temp() + 'F'"></span>
+                    <span data-bind="text: ' humidity: ' + humidity()"></span>
+                    <span data-bind="text: 'wind speed: ' + wind().speed"></span>
+                </p>
             </div>
         </header>
-        <aside class="main-nav">
-            <div class="input-wrapper">
-                <div class="input-group">
-                    <form data-bind="submit: onSubmit">
-                        <input id="locInput" class="form-control" placeholder="Seattle" data-bind="value: city, valueUpdate:'afterkeydown'">
-                        <input id="keywordInput" class="form-control" placeholder="Restaurant" data-bind="value: keyword, valueUpdate:'afterkeydown'">
-                        <button class="btn btn-info btn-md" type="submit">Submit</button>
-                    </form>
+        <div class="main-nav">      
+            <div id="nav-content" data-bind="css:{display: displayStatus()}">
+                <div class="input-wrapper">
+                    <div class="input-group">
+                        <form data-bind="submit: onSubmit">
+                            <input id="locInput" class="form-control" placeholder="Seattle" data-bind="value: city, valueUpdate:'afterkeydown'">
+                            <input id="keywordInput" class="form-control" placeholder="Restaurant" data-bind="value: keyword, valueUpdate:'afterkeydown'">
+                            <button class="btn btn-info btn-md" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="input-wrapper">    
+                    <span>
+                         <a class="btn btn-default-sm" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='google' alt="google"/></a>
+                    </span>
+                    <input placeholder= "filter" data-bind="textInput: query" />
+                </div><!-- /input-group -->
+                <div class="menu">
+                    <ul id="reslist-records" data-bind="foreach: filteredPlaces">
+                      <li data-bind="text: name, click: marker.openWindow"></li>
+                    </ul>
                 </div>
             </div>
-            <div>    
-                <form>
-                    <span>
-                         <a class="btn btn-default-lg" href='http://google.com/'><img src='powered-by-google/desktop/powered_by_google_on_non_white.png' title='powered-by-google' alt="google"/></a>
-                    </span>
-                </form>
-                <input placeholder= "filter by name" data-bind="textInput: query" />
-            </div><!-- /input-group -->
-            <div class="menu">
-                <h4 id="reslist-header">Search Results</h4>
-                <ul id="reslist-records" data-bind="foreach: filteredPlaces">
-                  <li data-bind="text: name, click: marker.openWindow"></li>
-                </ul>
-            </div>
-        </aside>
-        <main id="map" class="main-content">
-            
+        </div>
+        <main id="map" class="main-content">   
         </main>
-        
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,100,300,700">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
