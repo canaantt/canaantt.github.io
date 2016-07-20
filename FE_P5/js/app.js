@@ -39,6 +39,11 @@ function ViewModel(){
             var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
             var latLng = new google.maps.LatLng(latitude, longitude);
+            map = new google.maps.Map(document.getElementById('map'), {
+                           center: latLng,
+                           scrollwheel: true,
+                           zoom: 11
+                       });
             request = {
                 location: latLng,
                 radius: 20000,
@@ -50,6 +55,7 @@ function ViewModel(){
             /** Create the PlaceService and send the request.
             Handle the callback with an anonymous function.
             service = new google.maps.places.PlacesService(map);**/
+            
             self.places().length = 0;
             service.nearbySearch(request, function(results, status) {
                 if (status == google.maps.places.PlacesServiceStatus.OK) {
