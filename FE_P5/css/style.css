@@ -81,6 +81,10 @@ h3 {
   margin-right: 50px;
 } 
 
+img {
+  width: 100%;
+}
+
 img[src='Error.src'] {
     display: none;
 }
@@ -110,7 +114,7 @@ img[src='Error.src'] {
     margin-left: 50px;
   }
 
-  #appTitle {
+  .appTitle {
     font-size: small;
     color: #69BE28;
   }
@@ -130,7 +134,7 @@ img[src='Error.src'] {
     margin-left: 50px;
   }
 
-  #appTitle {
+  .appTitle {
     font-size: medium;
     color: #69BE28;
   }
@@ -148,7 +152,7 @@ img[src='Error.src'] {
     display: block;
   }
 
-  #appTitle {
+  .appTitle {
     font-size: x-large;
     color: #69BE28;
     margin-left: 20px;

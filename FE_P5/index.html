@@ -9,7 +9,7 @@
     <body class="page-wrap">
         <header class="navbar navbar-inverse navbar-fixed-top">
             <a id="toggleMenu" href="javascript:void(0);" style="font-size:15px;" data-bind="click:menuDisplay">☰</a>
-            <span id="appTitle">New to the Neighborhood?</span>
+            <span class="appTitle">New to the Neighborhood?</span>
             <div id="weather" class="nav navbar-nav pull-right" data-bind="submit: onSubmit">
                 <p>
                     <span data-bind="text: weathercity() + ' Current Weather:'"></span>
@@ -50,11 +50,12 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
         <script src="js/app.js"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhNWpNpPsfBzj8kjVbZk4LpGko1IKgjs0&libraries=geometry,places&callback=initMap&onerror=gm_authFailure"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhNWpNpPsfBzj8kjVbZk4LpGko1IKgjs0&libraries=geometry,places&callback=initMap&onerror=gm_authFailure()"></script> 
     </body>
 </html>

@@ -1,14 +1,3 @@
-// Hello.
-//
-// This is JSHint, a tool that helps to detect errors and potential
-// problems in your JavaScript code.
-//
-// To start, simply enter some JavaScript anywhere on this page. Your
-// report will appear on the right side.
-//
-// Additionally, you can toggle specific options in the Configure
-// menu.
-
 'use strict';
 
 var markers = [];
@@ -46,44 +35,38 @@ function ViewModel(){
     self.onSubmit = function() {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode( { 'address': self.city()}, function(results, status) {
-    
             if (status == google.maps.GeocoderStatus.OK) {
-                var latitude = results[0].geometry.location.lat();
-                var longitude = results[0].geometry.location.lng();
-                var latLng = new google.maps.LatLng(latitude, longitude);
-                map = new google.maps.Map(document.getElementById('map'), {
-                          center: latLng,
-                          scrollwheel: true,
-                          zoom: 11
-                      });
-                request = {
-                    location: latLng,
-                    radius: 20000,
-                    keyword: self.keyword()
-                    };
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+            var latLng = new google.maps.LatLng(latitude, longitude);
+            request = {
+                location: latLng,
+                radius: 20000,
+                keyword: self.keyword()
+                };
 
-                /** The 3rd Party API to report regional weather using geocode **/  
-                self.weather(latLng);
-                /** Create the PlaceService and send the request.
-                Handle the callback with an anonymous function.
-                service = new google.maps.places.PlacesService(map);**/
-                self.places().length = 0;
-                service.nearbySearch(request, function(results, status) {
-                    if (status == google.maps.places.PlacesServiceStatus.OK) {
-                        for (var i = 0; i < results.length; i++) {
-                            var place = results[i];
-                            /** If the request succeeds, draw the place location on
-                             the map as a marker, and register an event to handle a
-                             click on the marker. **/
-                            
-                            place.marker = self.drawMarker(map, place);
-                            self.places.push(place);
-                          }
-                    }else{
-                         alert(google.maps.places.PlacesServiceStatus.error_message);
-                    }
-                });
-            }else{
+            /** The 3rd Party API to report regional weather using geocode **/  
+            self.weather(latLng);
+            /** Create the PlaceService and send the request.
+            Handle the callback with an anonymous function.
+            service = new google.maps.places.PlacesService(map);**/
+            self.places().length = 0;
+            service.nearbySearch(request, function(results, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    for (var i = 0; i < results.length; i++) {
+                        var place = results[i];
+                        /** If the request succeeds, draw the place location on
+                         the map as a marker, and register an event to handle a
+                         click on the marker. **/
+                        
+                        place.marker = self.drawMarker(map, place);
+                        self.places.push(place);
+                      }
+                } else {
+                     alert(google.maps.places.PlacesServiceStatus.error_message);
+                }
+            });
+            } else {
                 alert(status);
             } 
         });  
@@ -114,10 +97,23 @@ function ViewModel(){
                     place.marker = self.drawMarker(map, place);
                     self.places.push(place);
                   }
-            }else{
+            } else { 
                 alert(google.maps.places.PlacesServiceStatus.error_message);
             }
         });
+    };
+
+    self.serviceBusy = function(str){
+        switch (str){
+            case true: 
+                    $(".spinning").show();
+                    $(".bodyContent").hide();
+                    break;         
+            case false: 
+                    $(".spinning").hide();
+                    $(".bodyContent").show();
+                    break;
+        }          
     };
 
     //Mark all the places from API call
@@ -133,11 +129,11 @@ function ViewModel(){
         var contentString = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">'+ marker.title+'</h1>'+
+            '<h4 id="firstHeading">'+ marker.title+'</h4>'+
+            '<div class="spinning"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span>loading...</span></div>' +
             '<div id="bodyContent">'+
             '<p><b>Location: '+ place.vicinity +'</b></p>'+
             '<p><b>Rating: '+ place.rating+'</b></p>';
-
 
         if(typeof( place.price_level) !== "undefined"){
             contentString = contentString + '<p><b>Price Level: '+place.price_level+'</b></p>';
@@ -145,7 +141,7 @@ function ViewModel(){
 
         if(typeof( place.photos) === "undefined"){
             contentString = contentString;
-        }else{
+        } else {
             contentString = contentString + '<img src="'+place.photos[0].getUrl({'maxWidth': 300, 'maxHeight': 300})+
                         '" alt='+ marker.title+'>'; 
         }     
@@ -153,6 +149,8 @@ function ViewModel(){
         marker.openWindow = function(){ 
             var url = "http://en.wikipedia.org/w/api.php?action=parse&format=json&prop=text&section=0&page="+
             marker.title + "&callback=?";
+            infowindow.open(map, marker);
+            self.serviceBusy(true);
             $.ajax({
                 type: "GET",
                 url: url,
@@ -169,33 +167,31 @@ function ViewModel(){
                     }
                     var contentString1 = contentString + blurb;
                     infowindow.setContent(contentString1);
-                    infowindow.open(map, marker);
                     marker.setAnimation(google.maps.Animation.BOUNCE);
                     setTimeout(function(){ marker.setAnimation(null); }, 1400);
+                    self.serviceBusy(false);
+                    
                 },
                 error: function (errorMessage) {
-                    console.log("error");
-                    var contentString1 = contentString + '<div>' + errorMessage + '</div></div></div>';
+                    console.log(errorMessage);
+                    var contentString1 = contentString + '<div>' + errorMessage.statusText + '</div></div></div>';
                     infowindow.setContent(contentString1);
-                    infowindow.open(map, marker);
                     marker.setAnimation(google.maps.Animation.BOUNCE);
                     setTimeout(function(){ marker.setAnimation(null); }, 1400);
+                    self.serviceBusy(false);
                 }
             });
         };    
-
         marker.addListener('click', function() {
             this.openWindow();
         });
-
         return marker;
     };
 
     self.weather = function(coordinates){
         var weatherURL = "http://api.openweathermap.org/data/2.5/weather?"+
             "lat=" + coordinates.lat() +
-            "&lon=" + coordinates.lng() + "&units=imperial" 
-            + "&APPID=" + weatherAPIKey;
+            "&lon=" + coordinates.lng() + "&units=imperial" + "&APPID=" + weatherAPIKey;
         $.get(weatherURL, function(response){
             self.weathercity(response.name);
             self.temp(response.main.temp);
@@ -203,17 +199,16 @@ function ViewModel(){
             self.weatherReport(response.weather[0].description);
             self.humidity(response.main.humidity);
         }).fail(function(jqXHR, status, error){
-            alert(JSON.parse(jqXHR.responseText).message);
+            alert(jqXHR.statusText);
         });
     };
-
     self.menuDisplay = function(){
         self.displayStatus(!self.displayStatus());
-    }
+    };
 
 }
 
-window.gm_authFailure = function(){
+function gm_authFailure() {
     alert("Google Map Connection Error. Please check Google API Key.");
 }
 
@@ -227,8 +222,8 @@ function initMap() {
             zoom: 11
             });
     infowindow = new google.maps.InfoWindow({
-                maxWidth: 350,
-                maxHeight: 400
+                maxWidth: 150,
+                maxHeight: 150
                 });
     service = new google.maps.places.PlacesService(map);
     var input = document.getElementById('locInput');
